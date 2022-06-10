@@ -1,4 +1,4 @@
-# Flask Template
+# Web App Template
 
 Template repo for deploying a Python Flask app with an Nginx proxy and SSL certificates from Let's Encrypt.
 
