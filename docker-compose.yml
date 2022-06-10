@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    volumes:
+      - ./volumes/certbot/conf/:/etc/letsencrypt/
+      - ./volumes/certbot/www/:/var/www/certbot/
+    restart: unless-stopped
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+      args:
+        DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./volumes/certbot/conf/:/etc/letsencrypt/
+      - ./volumes/certbot/www/:/var/www/certbot/
+    environment:
+      EMAIL: ${EMAIL}
+    restart: unless-stopped
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  flask:
+    container_name: flask
+    build:
+      context: ./flask
+      args:
+        APP_NAME: ${APP_NAME}
+        LOG_LEVEL: ${LOG_LEVEL}
+        WORKERS: ${WORKERS}
+        WORKER_CONNECTIONS: ${WORKER_CONNECTIONS}
+    restart: unless-stopped
