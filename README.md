@@ -27,9 +27,4 @@ If the initialization script completed without errors, your containers are runni
 
 ### Making changes
 
-Don't forget to rebuild the Flask app container after making changes:
-
-```
-docker-compose build flask
-docker-compose up -d
-```
+It's advised to re-initialize git before you modify this template. You can also choose to not mark the Flask template as a submodule.
