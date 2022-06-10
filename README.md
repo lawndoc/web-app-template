@@ -7,7 +7,7 @@ Template repo for deploying a Python Flask app with an Nginx proxy and SSL certi
 Clone the repo:
 
 ```
-git clone https://github.com/lawndoc/flask-api-template.git
+git clone --recurse-submodules https://github.com/lawndoc/web-app-template.git
 ```
 
 Add your configuration to .env and add it to your environment variables:
